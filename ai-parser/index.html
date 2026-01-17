@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI投资信息解析</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: transparent;
+            color: #333;
+            min-width: 410px;
+        }
+        .container {
+            max-width: 100%;
+            background: transparent;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+        .field-mapping {
+            margin-bottom: 20px;
+        }
+        .field-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .button:hover:not(:disabled) {
+            background-color: #2563eb;
+        }
+        .button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .status.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .status.info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .status.warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .progress {
+            margin-top: 10px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 6px;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .config-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background-color: #f9fafb;
+        }
+        .config-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+        
+        /* 深色主题适配 */
+        .dark-theme {
+            color: #e5e7eb;
+        }
+        .dark-theme .header {
+            color: #f3f4f6;
+        }
+        .dark-theme label {
+            color: #d1d5db;
+        }
+        .dark-theme select, 
+        .dark-theme input, 
+        .dark-theme textarea {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        .dark-theme .config-section {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        .dark-theme .config-title {
+            color: #f3f4f6;
+        }
+        
+        /* 环境提示样式 */
+        .env-notice {
+            background-color: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .env-notice h3 {
+            margin: 0 0 10px 0;
+            color: #92400e;
+        }
+        .env-notice p {
+            margin: 5px 0;
+            color: #92400e;
+            font-size: 14px;
+        }
+        .env-notice code {
+            background-color: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>AI投资信息解析器</h2>
+            <p>使用通义千问AI自动解析混乱语言列中的投资信息</p>
+        </div>
+
+        <div id="envNotice" class="env-notice" style="display: none;">
+            <h3>⚠️ 运行环境提示</h3>
+            <p>此插件需要在飞书多维表格的侧边栏中运行。</p>
+            <p>请按照以下步骤使用：</p>
+            <p>1. 打开飞书多维表格</p>
+            <p>2. 点击右上角的"插件"按钮</p>
+            <p>3. 选择"自定义插件" → "+新增插件"</p>
+            <p>4. 输入插件地址：<code id="pluginUrl"></code></p>
+            <p>5. 点击"确定"即可在侧边栏中运行</p>
+        </div>
+
+        <div id="mainContent" style="display: none;">
+            <div class="config-section">
+                <div class="config-title">AI配置</div>
+                <div class="field-group">
+                    <label for="aiProvider">AI服务商:</label>
+                    <select id="aiProvider">
+                        <option value="qwen" selected>通义千问 (Qwen)</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="claude">Claude</option>
+                        <option value="custom">自定义</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="apiKey">API密钥:</label>
+                    <input type="password" id="apiKey" placeholder="输入你的API密钥">
+                </div>
+                <div class="field-group">
+                    <label for="customUrl">自定义API地址 (可选):</label>
+                    <input type="text" id="customUrl" placeholder="https://api.example.com/v1/chat/completions">
+                </div>
+            </div>
+
+            <div class="field-mapping">
+                <div class="config-title">字段映射</div>
+                <div class="field-group">
+                    <label for="sourceField">混乱语言列:</label>
+                    <select id="sourceField">
+                        <option value="">请选择源字段</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>目标字段预览:</label>
+                    <div id="targetFieldsPreview" style="min-height: 60px; padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px; background-color: #f9fafb; font-size: 14px; color: #666;">
+                        请先选择源字段以查看目标字段
+                    </div>
+                    <small style="color: #666; font-size: 12px;">AI将自动解析信息到所有其他可用字段</small>
+                </div>
+            </div>
+
+            <button class="button" id="parseButton" onclick="startParsing()">开始解析</button>
+        </div>
+        
+        <div id="status" class="status" style="display: none;"></div>
+        <div id="progress" class="progress" style="display: none;">
+            <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let bitable = null;
+        let currentTable = null;
+        let fields = [];
+        let targetFields = [];
+        let isFeishuEnv = false;
+        let isDebugMode = false;
+
+        // 检查URL参数
+        function checkDebugMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            isDebugMode = urlParams.get('debug') === 'true';
+        }
+
+        // 检测运行环境
+        function detectEnvironment() {
+            // 检查是否在iframe中运行
+            const inIframe = window.self !== window.top;
+            
+            // 检查是否有飞书相关的全局变量
+            const hasFeishuGlobals = typeof window.h5sdk !== 'undefined' || 
+                                   typeof window.tt !== 'undefined' ||
+                                   typeof window.feishu !== 'undefined';
+            
+            // 检查URL是否包含飞书域名
+            const isFeishuDomain = window.location.hostname.includes('feishu.cn') || 
+                                 window.location.hostname.includes('larksuite.com');
+            
+            // 综合判断
+            isFeishuEnv = inIframe || hasFeishuGlobals || isFeishuDomain || isDebugMode;
+            
+            console.log('环境检测结果:', {
+                inIframe,
+                hasFeishuGlobals,
+                isFeishuDomain,
+                isDebugMode,
+                isFeishuEnv
+            });
+            
+            return isFeishuEnv;
+        }
+
+        // 等待SDK加载
+        function waitForBitableSDK() {
+            return new Promise((resolve, reject) => {
+                if (isDebugMode) {
+                    console.log('调试模式：跳过SDK检查');
+                    resolve();
+                    return;
+                }
+                
+                let attempts = 0;
+                const maxAttempts = 50; // 5秒超时
+                
+                const checkSDK = () => {
+                    attempts++;
+                    
+                    // 尝试多种方式获取SDK
+                    if (window.bitable && window.bitable.base) {
+                        console.log('SDK已加载 (window.bitable)');
+                        bitable = window.bitable;
+                        resolve();
+                        return;
+                    }
+                    
+                    // 尝试从parent获取（如果在iframe中）
+                    if (window.parent && window.parent !== window) {
+                        try {
+                            if (window.parent.bitable && window.parent.bitable.base) {
+                                console.log('SDK已加载 (parent.bitable)');
+                                bitable = window.parent.bitable;
+                                resolve();
+                                return;
+                            }
+                        } catch (e) {
+                            // 跨域访问失败，忽略
+                        }
+                    }
+                    
+                    if (attempts >= maxAttempts) {
+                        reject(new Error('SDK加载超时'));
+                        return;
+                    }
+                    
+                    setTimeout(checkSDK, 100);
+                };
+                
+                // 立即开始检查
+                checkSDK();
+            });
+        }
+
+        // 显示环境提示
+        function showEnvironmentNotice() {
+            const envNotice = document.getElementById('envNotice');
+            const mainContent = document.getElementById('mainContent');
+            const pluginUrlEl = document.getElementById('pluginUrl');
+            
+            // 设置当前页面URL
+            pluginUrlEl.textContent = window.location.href;
+            
+            envNotice.style.display = 'block';
+            mainContent.style.display = 'none';
+        }
+
+        // 初始化
+        async function init() {
+            try {
+                checkDebugMode();
+                
+                if (!detectEnvironment()) {
+                    showEnvironmentNotice();
+                    return;
+                }
+                
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('envNotice').style.display = 'none';
+                
+                if (isDebugMode) {
+                    showStatus('调试模式：使用模拟数据', 'warning');
+                    initDebugMode();
+                    return;
+                }
+                
+                showStatus('正在初始化SDK...', 'info');
+                
+                await waitForBitableSDK();
+                
+                showStatus('正在连接多维表格...', 'info');
+                
+                currentTable = await bitable.base.getActiveTable();
+                
+                if (!currentTable) {
+                    throw new Error('无法获取当前表格，请确保已选择一个表格');
+                }
+                
+                await loadFields();
+                await initTheme();
+                
+                showStatus('已成功连接到多维表格', 'success');
+                
+            } catch (error) {
+                console.error('初始化失败:', error);
+                
+                if (error.message === 'SDK加载超时') {
+                    showEnvironmentNotice();
+                } else {
+                    showStatus('初始化失败: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // 调试模式初始化
+        function initDebugMode() {
+            // 模拟字段数据
+            fields = [
+                { id: 'field1', name: '混乱语言', type: 1 },
+                { id: 'field2', name: '项目名称', type: 1 },
+                { id: 'field3', name: '投资金额', type: 1 },
+                { id: 'field4', name: '投资方', type: 1 },
+                { id: 'field5', name: '投资日期', type: 5 },
+                { id: 'field6', name: '行业', type: 3 },
+                { id: 'field7', name: '轮次', type: 3 }
+            ];
+            
+            const sourceSelect = document.getElementById('sourceField');
+            sourceSelect.innerHTML = '<option value="">请选择字段</option>';
+            
+            fields.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.id;
+                option.textContent = field.name;
+                sourceSelect.appendChild(option);
+            });
+            
+            sourceSelect.addEventListener('change', updateTargetFields);
+            
+            // 自动选择混乱语言字段
+            sourceSelect.value = 'field1';
+            updateTargetFields();
+        }
+
+        // 初始化主题
+        async function initTheme() {
+            try {
+                if (bitable && bitable.bridge && bitable.bridge.getTheme) {
+                    const theme = await bitable.bridge.getTheme();
+                    applyTheme(theme);
+                    
+                    if (bitable.bridge.onThemeChange) {
+                        bitable.bridge.onThemeChange((event) => {
+                            applyTheme(event.data.theme);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.log('主题初始化失败，使用默认主题:', error);
+            }
+        }
+
+        // 应用主题
+        function applyTheme(theme) {
+            const body = document.body;
+            if (theme === 'DARK') {
+                body.classList.add('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+            }
+        }
+
+        // 加载字段列表
+        async function loadFields() {
+            try {
+                const fieldList = await currentTable.getFieldMetaList();
+                fields = fieldList;
+                
+                const sourceSelect = document.getElementById('sourceField');
+                sourceSelect.innerHTML = '<option value="">请选择字段</option>';
+                
+                fieldList.forEach(field => {
+                    const option = document.createElement('option');
+                    option.value = field.id;
+                    option.textContent = field.name;
+                    sourceSelect.appendChild(option);
+                });
+
+                sourceSelect.addEventListener('change', updateTargetFields);
+                autoMatchFields(fieldList);
+            } catch (error) {
+                console.error('加载字段失败:', error);
+                showStatus('加载字段失败: ' + error.message, 'error');
+            }
+        }
+
+        // 更新目标字段预览
+        function updateTargetFields() {
+            const sourceFieldId = document.getElementById('sourceField').value;
+            const previewDiv = document.getElementById('targetFieldsPreview');
+            
+            if (!sourceFieldId) {
+                previewDiv.innerHTML = '请先选择源字段以查看目标字段';
+                previewDiv.style.color = '#666';
+                targetFields = [];
+                return;
+            }
+
+            targetFields = fields.filter(field => 
+                field.id !== sourceFieldId && 
+                [1, 2, 3, 4, 5, 11, 13, 15].includes(field.type)
+            );
+
+            if (targetFields.length === 0) {
+                previewDiv.innerHTML = '没有找到可用的目标字段';
+                previewDiv.style.color = '#ef4444';
+                return;
+            }
+
+            const fieldList = targetFields.map(field => 
+                `<span style="display: inline-block; margin: 2px 8px 2px 0; padding: 2px 8px; background-color: #e5e7eb; border-radius: 4px; font-size: 13px;">
+                    ${field.name} (${getFieldTypeName(field.type)})
+                </span>`
+            ).join('');
+            
+            previewDiv.innerHTML = `将解析到以下 ${targetFields.length} 个字段：<br/>${fieldList}`;
+            previewDiv.style.color = '#374151';
+        }
+
+        function getFieldTypeName(type) {
+            const typeNames = {
+                1: '文本',
+                2: '数字', 
+                3: '单选',
+                4: '多选',
+                5: '日期',
+                11: '人员',
+                13: '电话',
+                15: '链接'
+            };
+            return typeNames[type] || '其他';
+        }
+
+        function autoMatchFields(fieldList) {
+            const sourceKeywords = ['混乱语言', '原始信息', '描述', '备注', '内容'];
+            const sourceSelect = document.getElementById('sourceField');
+            
+            for (let field of fieldList) {
+                for (let keyword of sourceKeywords) {
+                    if (field.name.includes(keyword)) {
+                        sourceSelect.value = field.id;
+                        updateTargetFields();
+                        return;
+                    }
+                }
+            }
+        }
+
+        function showStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = message;
+            statusEl.className = `status ${type}`;
+            statusEl.style.display = 'block';
+        }
+
+        function updateProgress(current, total) {
+            const progressEl = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            
+            if (total > 0) {
+                progressEl.style.display = 'block';
+                const percentage = (current / total) * 100;
+                progressBar.style.width = `${percentage}%`;
+            } else {
+                progressEl.style.display = 'none';
+            }
+        }
+
+        async function parseWithAI(text) {
+            const provider = document.getElementById('aiProvider').value;
+            const apiKey = document.getElementById('apiKey').value;
+            const customUrl = document.getElementById('customUrl').value;
+
+            if (!apiKey) {
+                throw new Error('请输入API密钥');
+            }
+
+            if (targetFields.length === 0) {
+                throw new Error('没有可用的目标字段');
+            }
+
+            const targetFieldNames = targetFields.map(field => field.name);
+            const fieldDescriptions = targetFieldNames.map(name => `"${name}": "提取的${name}信息"`).join(',\n  ');
+            
+            const prompt = `请解析以下文本，提取相关信息并填入指定字段。请严格按照JSON格式返回结果：
+
+文本内容：${text}
+
+目标字段：${targetFieldNames.join('、')}
+
+返回格式：
+{
+  ${fieldDescriptions}
+}
+
+注意：
+1. 如果某个字段无法提取，请返回空字符串
+2. 金额请保持原格式（如"4000万"、"1亿美元"等）
+3. 只返回JSON格式，不要其他说明文字
+4. 确保返回的是有效的JSON对象
+5. 可以从文本中提取多条记录，每条记录为一个JSON对象，多条记录用数组包装
+
+如果文本包含多条信息，请返回数组格式：
+[
+  {${fieldDescriptions}},
+  {${fieldDescriptions}}
+]`;
+
+            let apiUrl, requestBody, headers;
+
+            if (provider === 'qwen') {
+                apiUrl = customUrl || 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+                headers = {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                };
+                requestBody = {
+                    model: 'qwen-plus',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.1
+                };
+            } else if (provider === 'openai') {
+                apiUrl = customUrl || 'https://api.openai.com/v1/chat/completions';
+                headers = {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                };
+                requestBody = {
+                    model: 'gpt-3.5-turbo',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.1
+                };
+            } else if (provider === 'claude') {
+                apiUrl = 'https://api.anthropic.com/v1/messages';
+                headers = {
+                    'x-api-key': apiKey,
+                    'Content-Type': 'application/json',
+                    'anthropic-version': '2023-06-01'
+                };
+                requestBody = {
+                    model: 'claude-3-sonnet-20240229',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: prompt }]
+                };
+            } else {
+                apiUrl = customUrl;
+                headers = {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                };
+                requestBody = {
+                    model: 'gpt-3.5-turbo',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.1
+                };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`API请求失败: ${response.status} ${response.statusText}${errorData.message ? ' - ' + errorData.message : ''}`);
+                }
+
+                const data = await response.json();
+                
+                let content;
+                if (provider === 'claude') {
+                    content = data.content[0].text;
+                } else {
+                    content = data.choices[0].message.content;
+                }
+
+                const jsonMatch = content.match(/\[[\s\S]*?\]|\{[\s\S]*?\}/);
+                if (jsonMatch) {
+                    const parsed = JSON.parse(jsonMatch[0]);
+                    return Array.isArray(parsed) ? parsed : [parsed];
+                } else {
+                    throw new Error('AI返回格式错误，未找到JSON内容');
+                }
+            } catch (error) {
+                console.error('AI解析失败:', error);
+                throw error;
+            }
+        }
+
+        async function startParsing() {
+            if (isDebugMode) {
+                showStatus('调试模式：模拟解析过程', 'info');
+                setTimeout(() => {
+                    showStatus('调试模式：解析完成！', 'success');
+                }, 2000);
+                return;
+            }
+            
+            if (!bitable || !currentTable) {
+                showStatus('请先等待初始化完成', 'error');
+                return;
+            }
+
+            const sourceFieldId = document.getElementById('sourceField').value;
+
+            if (!sourceFieldId) {
+                showStatus('请选择源字段', 'error');
+                return;
+            }
+
+            if (targetFields.length === 0) {
+                showStatus('没有可用的目标字段', 'error');
+                return;
+            }
+
+            const parseButton = document.getElementById('parseButton');
+            parseButton.disabled = true;
+            parseButton.textContent = '解析中...';
+
+            try {
+                showStatus('正在获取记录...', 'info');
+                
+                const recordList = await currentTable.getRecordIdList();
+                const records = [];
+                
+                for (let recordId of recordList) {
+                    try {
+                        const sourceValue = await currentTable.getCellValue(sourceFieldId, recordId);
+                        
+                        if (sourceValue && typeof sourceValue === 'string' && sourceValue.trim()) {
+                            records.push({
+                                sourceText: sourceValue.trim()
+                            });
+                        }
+                    } catch (error) {
+                        console.error(`获取记录${recordId}失败:`, error);
+                    }
+                }
+
+                if (records.length === 0) {
+                    showStatus('没有找到需要解析的记录', 'error');
+                    return;
+                }
+
+                showStatus(`开始解析 ${records.length} 条记录...`, 'info');
+                updateProgress(0, records.length);
+
+                let successCount = 0;
+                let errorCount = 0;
+                let newRecordsCount = 0;
+
+                for (let i = 0; i < records.length; i++) {
+                    const record = records[i];
+                    
+                    try {
+                        showStatus(`正在解析第 ${i + 1}/${records.length} 条记录...`, 'info');
+                        
+                        const parsedResults = await parseWithAI(record.sourceText);
+                        
+                        for (let result of parsedResults) {
+                            const newRecordData = {};
+                            let hasData = false;
+                            
+                            targetFields.forEach(field => {
+                                const fieldName = field.name;
+                                if (result[fieldName] && result[fieldName].trim()) {
+                                    newRecordData[field.id] = result[fieldName].trim();
+                                    hasData = true;
+                                }
+                            });
+
+                            if (hasData) {
+                                await currentTable.addRecord(newRecordData);
+                                newRecordsCount++;
+                            }
+                        }
+                        
+                        successCount++;
+                        updateProgress(i + 1, records.length);
+                        
+                        const delay = 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        
+                    } catch (error) {
+                        console.error(`解析记录失败:`, error);
+                        errorCount++;
+                    }
+                }
+
+                updateProgress(records.length, records.length);
+                const statusMessage = `解析完成！处理源记录: ${successCount} 条，失败: ${errorCount} 条，新增记录: ${newRecordsCount} 条`;
+                showStatus(statusMessage, errorCount === 0 ? 'success' : 'info');
+
+            } catch (error) {
+                console.error('解析过程出错:', error);
+                showStatus('解析失败: ' + error.message, 'error');
+            } finally {
+                parseButton.disabled = false;
+                parseButton.textContent = '开始解析';
+            }
+        }
+
+        // 全局函数，供HTML按钮调用
+        window.startParsing = startParsing;
+
+        // 页面加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+    <script src="/visitor-tracking.js"></script>
+</body>
+</html>

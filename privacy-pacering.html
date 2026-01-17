@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2P15WNNY8V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);} 
+        gtag('js', new Date());
+
+        gtag('config', 'G-2P15WNNY8V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacering Privacy Policy | 效率环隐私政策</title>
+    <link rel="icon" type="image/png" href="coffee.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #ffffff;
+            --accent: #666666;
+            --text-light: #999999;
+            --border-light: #e0e0e0;
+            --hover-color: #333333;
+            --max-width: 1200px;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            box-sizing: border-box;
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
+            padding: 60px 40px;
+        }
+
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .privacy-title {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .privacy-subtitle {
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border-light);
+            padding: 8px 20px;
+            margin: 0 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            border-color: var(--primary-dark);
+        }
+
+        .lang-btn:hover {
+            background: var(--hover-color);
+            color: var(--primary-light);
+            border-color: var(--hover-color);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .section h3 {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            color: var(--primary-dark);
+        }
+
+        .section p {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .effective-date {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+            }
+
+            .main-content {
+                padding: 40px 20px;
+            }
+
+            .privacy-title {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="coffee.png" alt="Panoramic Intelligence">
+                <span>Panoramic Intelligence</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#projects">Projects</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="privacy-header">
+            <h1 class="privacy-title">Pacering Privacy Policy</h1>
+            <p class="privacy-subtitle">效率环隐私政策</p>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
+        </div>
+
+        <!-- English Content -->
+        <div id="en-content" class="content-section active">
+            <div class="section">
+                <h2>Privacy Policy for Pacering</h2>
+                <p>This Privacy Policy describes how Pacering ("we," "our," or "us") collects, uses, and protects your information when you use our macOS productivity tracking application.</p>
+            </div>
+
+            <div class="section">
+                <h2>Information We Collect</h2>
+                
+                <h3>Automatically Collected Information</h3>
+                <p>Pacering automatically collects the following information to provide its core functionality:</p>
+                <ul>
+                    <li><strong>Application Usage Data:</strong> Names and usage duration of applications running on your Mac</li>
+                    <li><strong>Active Window Information:</strong> Window titles and application names of currently active applications</li>
+                    <li><strong>Time Tracking Data:</strong> Start and end times of application usage sessions</li>
+                    <li><strong>Work App Preferences:</strong> Your manually selected list of applications that count toward work time</li>
+                    <li><strong>Daily Goals:</strong> Your personal productivity targets and progress</li>
+                    <li><strong>Achievement Data:</strong> Progress toward productivity milestones and unlocked achievements</li>
+                </ul>
+
+                <h3>User-Provided Information</h3>
+                <ul>
+                    <li><strong>Daily Work Goals:</strong> Target hours you set for daily productivity</li>
+                    <li><strong>Work Application Selection:</strong> Applications you manually designate as "work apps"</li>
+                    <li><strong>Language Preferences:</strong> Your chosen interface language (English or Chinese)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>How We Use Your Information</h2>
+                <p>All information collected by Pacering is used exclusively for the following purposes:</p>
+                <ul>
+                    <li>Tracking and displaying your productivity metrics</li>
+                    <li>Calculating progress toward your daily work goals</li>
+                    <li>Generating historical productivity reports and analytics</li>
+                    <li>Managing achievement progress and unlocking milestones</li>
+                    <li>Providing AI-powered productivity insights and recommendations</li>
+                    <li>Maintaining your app preferences and settings</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Data Storage and Security</h2>
+                <p><strong>All data is stored locally on your Mac.</strong> Pacering does not transmit any of your personal information, usage data, or productivity metrics to external servers or third parties.</p>
+                
+                <h3>Local Storage Details</h3>
+                <ul>
+                    <li>Data is stored using macOS UserDefaults system</li>
+                    <li>All information remains on your device at all times</li>
+                    <li>No cloud synchronization or remote backup occurs</li>
+                    <li>Data is accessible only by the Pacering application on your Mac</li>
+                </ul>
+
+                <h3>Data Security</h3>
+                <ul>
+                    <li>Data is protected by macOS system-level security measures</li>
+                    <li>Access requires your macOS user account authentication</li>
+                    <li>No data is transmitted over networks or to external services</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Permissions Required</h2>
+                <p>Pacering requires the following macOS permissions to function:</p>
+                <ul>
+                    <li><strong>Accessibility Permission:</strong> Required to monitor active applications and window titles for time tracking purposes</li>
+                    <li><strong>Application Monitoring:</strong> Necessary to detect when applications are launched, active, or closed</li>
+                </ul>
+                <p>These permissions are used solely for productivity tracking and are not used for any other purpose.</p>
+            </div>
+
+            <div class="section">
+                <h2>AI Analysis Features</h2>
+                <p>Pacering includes AI-powered productivity analysis features:</p>
+                <ul>
+                    <li>Analysis is performed using aggregated, anonymized usage patterns</li>
+                    <li>No personal data or specific application names are sent to AI services</li>
+                    <li>AI insights are generated based on general productivity metrics only</li>
+                    <li>All AI analysis occurs with your explicit consent via the "Generate Analysis" button</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Data Retention</h2>
+                <ul>
+                    <li>Historical data is retained locally for up to 30 days for trend analysis</li>
+                    <li>You can clear all data by uninstalling the application</li>
+                    <li>No automated data deletion occurs without your action</li>
+                    <li>Achievement progress is maintained until manually reset</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Third-Party Services</h2>
+                <p>Pacering does not integrate with or share data with any third-party services, analytics platforms, or advertising networks. The application operates entirely offline regarding your personal data.</p>
+            </div>
+
+            <div class="section">
+                <h2>Children's Privacy</h2>
+                <p>Pacering is not specifically designed for children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us immediately.</p>
+            </div>
+
+            <div class="section">
+                <h2>Changes to This Privacy Policy</h2>
+                <p>We may update this Privacy Policy from time to time. Any changes will be reflected in the application and on this page. We encourage you to review this Privacy Policy periodically for any changes.</p>
+            </div>
+
+            <div class="section">
+                <h2>Contact Information</h2>
+                <p>If you have any questions about this Privacy Policy or Pacering's privacy practices, please contact us:</p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/chengyixu/pacering" target="_blank">https://github.com/chengyixu/pacering</a></li>
+                    <li>Website: <a href="https://www.panor.tech" target="_blank">https://www.panor.tech</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chinese Content -->
+        <div id="zh-content" class="content-section">
+            <div class="section">
+                <h2>效率环隐私政策</h2>
+                <p>本隐私政策描述了效率环（"我们"或"本应用"）在您使用我们的 macOS 生产力追踪应用程序时如何收集、使用和保护您的信息。</p>
+            </div>
+
+            <div class="section">
+                <h2>我们收集的信息</h2>
+                
+                <h3>自动收集的信息</h3>
+                <p>效率环会自动收集以下信息以提供核心功能：</p>
+                <ul>
+                    <li><strong>应用程序使用数据：</strong>在您的 Mac 上运行的应用程序名称和使用时长</li>
+                    <li><strong>活动窗口信息：</strong>当前活动应用程序的窗口标题和应用程序名称</li>
+                    <li><strong>时间跟踪数据：</strong>应用程序使用会话的开始和结束时间</li>
+                    <li><strong>工作应用偏好：</strong>您手动选择的计入工作时间的应用程序列表</li>
+                    <li><strong>每日目标：</strong>您的个人生产力目标和进度</li>
+                    <li><strong>成就数据：</strong>生产力里程碑的进度和已解锁的成就</li>
+                </ul>
+
+                <h3>用户提供的信息</h3>
+                <ul>
+                    <li><strong>每日工作目标：</strong>您为每日生产力设定的目标小时数</li>
+                    <li><strong>工作应用选择：</strong>您手动指定为"工作应用"的应用程序</li>
+                    <li><strong>语言偏好：</strong>您选择的界面语言（英文或中文）</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>我们如何使用您的信息</h2>
+                <p>效率环收集的所有信息仅用于以下目的：</p>
+                <ul>
+                    <li>跟踪并显示您的生产力指标</li>
+                    <li>计算您每日工作目标的完成进度</li>
+                    <li>生成历史生产力报告和分析</li>
+                    <li>管理成就进度和解锁里程碑</li>
+                    <li>提供AI驱动的生产力洞察和建议</li>
+                    <li>维护您的应用偏好和设置</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>数据存储和安全</h2>
+                <p><strong>所有数据都存储在您的 Mac 本地。</strong>效率环不会将您的任何个人信息、使用数据或生产力指标传输到外部服务器或第三方。</p>
+                
+                <h3>本地存储详情</h3>
+                <ul>
+                    <li>数据使用 macOS UserDefaults 系统存储</li>
+                    <li>所有信息始终保留在您的设备上</li>
+                    <li>不进行云同步或远程备份</li>
+                    <li>数据仅可由您 Mac 上的效率环应用程序访问</li>
+                </ul>
+
+                <h3>数据安全</h3>
+                <ul>
+                    <li>数据受 macOS 系统级安全措施保护</li>
+                    <li>访问需要您的 macOS 用户账户认证</li>
+                    <li>不通过网络传输数据或发送到外部服务</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>所需权限</h2>
+                <p>效率环需要以下 macOS 权限才能正常运行：</p>
+                <ul>
+                    <li><strong>辅助功能权限：</strong>用于监控活动应用程序和窗口标题以进行时间跟踪</li>
+                    <li><strong>应用程序监控：</strong>用于检测应用程序的启动、激活或关闭</li>
+                </ul>
+                <p>这些权限仅用于生产力跟踪，不用于任何其他目的。</p>
+            </div>
+
+            <div class="section">
+                <h2>AI 分析功能</h2>
+                <p>效率环包含AI驱动的生产力分析功能：</p>
+                <ul>
+                    <li>分析使用聚合的、匿名化的使用模式进行</li>
+                    <li>不会向AI服务发送个人数据或特定应用程序名称</li>
+                    <li>AI洞察仅基于一般生产力指标生成</li>
+                    <li>所有AI分析均需通过"生成分析"按钮获得您的明确同意</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>数据保留</h2>
+                <ul>
+                    <li>历史数据在本地保留最多30天用于趋势分析</li>
+                    <li>您可以通过卸载应用程序清除所有数据</li>
+                    <li>没有您的操作不会进行自动数据删除</li>
+                    <li>成就进度将保持到手动重置</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>第三方服务</h2>
+                <p>效率环不与任何第三方服务、分析平台或广告网络集成或共享数据。该应用程序在您的个人数据方面完全离线运行。</p>
+            </div>
+
+            <div class="section">
+                <h2>儿童隐私</h2>
+                <p>效率环不是专门为13岁以下儿童设计的。我们不会故意收集13岁以下儿童的个人信息。如果您认为儿童向我们提供了个人信息，请立即联系我们。</p>
+            </div>
+
+            <div class="section">
+                <h2>隐私政策变更</h2>
+                <p>我们可能会不时更新此隐私政策。任何变更将在应用程序和本页面中反映。我们鼓励您定期查看此隐私政策以了解任何变更。</p>
+            </div>
+
+            <div class="section">
+                <h2>联系信息</h2>
+                <p>如果您对此隐私政策或效率环的隐私做法有任何疑问，请联系我们：</p>
+                <ul>
+                    <li>GitHub：<a href="https://github.com/chengyixu/pacering" target="_blank">https://github.com/chengyixu/pacering</a></li>
+                    <li>网站：<a href="https://www.panor.tech" target="_blank">https://www.panor.tech</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="effective-date">
+            <p>Last Updated: January 2025 | 最后更新：2025年1月</p>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected language content
+            document.getElementById(lang + '-content').classList.add('active');
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (lang === 'en') {
+                document.querySelector('[onclick="switchLanguage(\'en\')"]').classList.add('active');
+            } else {
+                document.querySelector('[onclick="switchLanguage(\'zh\')"]').classList.add('active');
+            }
+        }
+    </script>
+    <script src="/visitor-tracking.js"></script>
+</body>
+</html>

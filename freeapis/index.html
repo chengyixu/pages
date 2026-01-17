@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2P15WNNY8V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);} 
+        gtag('js', new Date());
+
+        gtag('config', 'G-2P15WNNY8V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费 AI API - Panoramic Intelligence 全景智能</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #ffffff;
+            --accent: #666666;
+            --text-light: #999999;
+            --border-light: #e0e0e0;
+            --hover-color: #333333;
+            --max-width: 1200px;
+            --edit-color: #007acc;
+            --save-color: #28a745;
+            --cancel-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            box-sizing: border-box;
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .logo::before {
+            content: '> ';
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 120px 40px 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* API Keys Section */
+        .api-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .api-card {
+            background: var(--primary-light);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .api-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .api-card h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .api-keys {
+            margin-top: 15px;
+        }
+
+        .api-key {
+            background: #f8f9fa;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: var(--primary-dark);
+            word-break: break-all;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .api-key:hover {
+            background: #e9ecef;
+            border-color: var(--accent);
+        }
+
+        .api-key.copied {
+            background: var(--save-color);
+            color: white;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--edit-color);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            font-size: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .api-key:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--hover-color);
+        }
+
+        .key-count {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: var(--cancel-color);
+        }
+
+        /* Last Updated */
+        .last-updated {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+            }
+
+            .main-content {
+                padding: 100px 20px 40px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .api-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .provider-links {
+                gap: 10px;
+            }
+
+            .provider-link {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Contact Section Styles */
+        .contact {
+            background-color: var(--primary-dark);
+            color: var(--primary-light);
+            text-align: center;
+            width: 100%;
+            padding: 60px 0;
+            box-sizing: border-box;
+            margin-top: 60px;
+        }
+
+        .section-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .section-title::before {
+            content: '// ';
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--primary-dark);
+        }
+
+        /* Service Provider Navigation */
+        .provider-nav {
+            background: #f8f9fa;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .provider-nav h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .provider-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .provider-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary-light);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .provider-link:hover {
+            background: var(--accent);
+            color: var(--primary-light);
+            border-color: var(--accent);
+        }
+
+        /* Contact section title color fix */
+        .contact .section-title {
+            color: var(--primary-light);
+        }
+
+        .contact .section-title::after {
+            background-color: var(--primary-light);
+        }
+
+        .contact-info {
+            margin-top: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            opacity: 0.7;
+        }
+
+        .contact-links .wechat {
+            color: var(--primary-light);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .company-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .company-info p {
+            color: var(--text-light);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            margin: 5px 0;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .qr-title {
+            color: var(--primary-light);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .qr-codes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .qr-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .qr-item:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .qr-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .qr-item:hover .qr-image {
+            transform: scale(3);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .qr-label {
+            color: var(--primary-light);
+            font-size: 10px;
+            letter-spacing: 0.3px;
+            text-align: center;
+            max-width: 80px;
+        }
+
+        /* Responsive Contact */
+        @media (max-width: 768px) {
+            .section-content {
+                padding: 0 20px;
+            }
+
+            .contact-links {
+                gap: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-links a,
+            .contact-links .wechat {
+                font-size: 12px;
+            }
+
+            .qr-codes {
+                gap: 15px;
+            }
+
+            .qr-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .qr-label {
+                font-size: 9px;
+                max-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Panoramic Intelligence</div>
+            <ul class="nav-links">
+                <li><a href="/">首页</a></li>
+                <li><a href="/turtle/">海龟汤</a></li>
+                <li><a href="/freeapis">免费API</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">免费API密钥</h1>
+            <p class="page-subtitle">每日自动更新的AI服务API密钥，按提供商分类展示</p>
+        </div>
+
+        <!-- Service Provider Navigation -->
+        <div class="provider-nav" id="provider-nav">
+            <h3>服务商导航</h3>
+            <div class="provider-links" id="provider-links">
+                <div class="loading">正在加载服务商列表...</div>
+            </div>
+        </div>
+
+        <div id="api-content">
+            <div class="loading">正在加载API密钥...</div>
+        </div>
+
+        <div class="last-updated" id="last-updated">
+            最后更新: 加载中...
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-content">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-info">
+                <div class="contact-links">
+                    <a href="https://github.com/chengyixu" target="_blank">GitHub</a>
+                    <a href="https://www.panor.tech/" target="_blank">Website</a>
+                    <a href="mailto:wilson_xu@panor.tech">Email P</a>
+                    <a href="mailto:xcy@minervacap.cn">Email W</a>
+                    <span class="wechat">微信: OneMoreBirthday</span>
+                    <a href="https://www.linkedin.com/in/chengyi-xu-cn/" target="_blank">LinkedIn</a>
+                </div>
+                <div class="qr-section">
+                    <div class="qr-title">QR Codes / 二维码</div>
+                    <div class="qr-codes">
+                        <div class="qr-item">
+                            <img src="/public/QR codes/个人二维码.png" alt="个人二维码" class="qr-image">
+                            <span class="qr-label">个人二维码</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/全景社区交流群.png" alt="社区交流群" class="qr-image">
+                            <span class="qr-label">社区交流群</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/公众号二维码.jpg" alt="公众号二维码" class="qr-image">
+                            <span class="qr-label">公众号二维码</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/微信群QR_非企业.png" alt="微信群" class="qr-image">
+                            <span class="qr-label">微信群</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="company-info">
+                    <p>帕诺互联网 | 全景智能</p>
+                    <p>© 2025 Panoramic Intelligence | Small & Beautiful</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show copied state
+                const keyElement = event.target.parentElement;
+                keyElement.classList.add('copied');
+                setTimeout(() => {
+                    keyElement.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Load API keys
+        async function loadApiKeys() {
+            try {
+                const response = await fetch('/api/freeapis');
+                if (!response.ok) {
+                    throw new Error('Failed to load API keys');
+                }
+                
+                const data = await response.json();
+                displayApiKeys(data.keys);
+                updateLastUpdated(data.lastUpdated);
+            } catch (error) {
+                console.error('Error loading API keys:', error);
+                document.getElementById('api-content').innerHTML = 
+                    '<div class="error">加载API密钥时出错，请稍后重试</div>';
+            }
+        }
+
+        // Display API keys
+        function displayApiKeys(keys) {
+            const container = document.getElementById('api-content');
+            
+            if (!keys || Object.keys(keys).length === 0) {
+                container.innerHTML = '<div class="error">暂无可用的API密钥</div>';
+                return;
+            }
+
+            let html = '';
+            const providers = [];
+            
+            for (const [provider, apiKeys] of Object.entries(keys)) {
+                if (apiKeys.length === 0) continue;
+                providers.push(provider);
+                
+                html += `
+                    <div class="api-section" id="provider-${provider.replace(/\s+/g, '-').toLowerCase()}">
+                        <h2 class="section-title">${provider}</h2>
+                        <div class="key-count">找到 ${apiKeys.length} 个密钥</div>
+                        <div class="api-grid">
+                            <div class="api-card">
+                                <h3>API密钥列表</h3>
+                                    ${apiKeys.map(key => `
+                                        <div class="api-key" onclick="copyToClipboard('${key}')">
+                                            ${key}
+                                            <button class="copy-btn" onclick="event.stopPropagation(); copyToClipboard('${key}')">
+                                                复制
+                                            </button>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+            // Generate provider navigation
+            generateProviderNav(providers);
+        }
+
+        // Generate provider navigation
+        function generateProviderNav(providers) {
+            const navContainer = document.getElementById('provider-links');
+            
+            if (!providers || providers.length === 0) {
+                navContainer.innerHTML = '<div class="error">暂无可用的服务商</div>';
+                return;
+            }
+
+            const navHtml = providers.map(provider => {
+                const providerId = provider.replace(/\s+/g, '-').toLowerCase();
+                return `<a href="#provider-${providerId}" class="provider-link">${provider}</a>`;
+            }).join('');
+            
+            navContainer.innerHTML = navHtml;
+        }
+
+        // Smooth scroll to provider section
+        function scrollToProvider(providerId) {
+            const element = document.getElementById(providerId);
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Update last updated time
+        function updateLastUpdated(timestamp) {
+            const element = document.getElementById('last-updated');
+            if (timestamp) {
+                const date = new Date(timestamp);
+                element.textContent = `最后更新: ${date.toLocaleString('zh-CN')}`;
+            } else {
+                element.textContent = '最后更新: 未知';
+            }
+        }
+
+        // Load API keys when page loads
+        document.addEventListener('DOMContentLoaded', loadApiKeys);
+    </script>
+    <!-- Visitor Tracking -->
+    <script src="/visitor-tracking.js"></script>
+</body>
+</html> 

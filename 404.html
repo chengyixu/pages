@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2P15WNNY8V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);} 
+        gtag('js', new Date());
+
+        gtag('config', 'G-2P15WNNY8V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #ffffff;
+            --accent: #666666;
+            --text-light: #999999;
+            --border-light: #e0e0e0;
+            --max-width: 1200px;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 100px 20px;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        .back-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Contact Section Styles */
+        .contact {
+            background-color: var(--primary-dark);
+            color: var(--primary-light);
+            text-align: center;
+            width: 100%;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+
+        .section-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+            color: var(--primary-light);
+        }
+
+        .section-title::before {
+            content: '// ';
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--primary-light);
+        }
+
+        .contact-info {
+            margin-top: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            opacity: 0.7;
+        }
+
+        .contact-links .wechat {
+            color: var(--primary-light);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .company-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .company-info p {
+            color: var(--text-light);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            margin: 5px 0;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .qr-title {
+            color: var(--primary-light);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .qr-codes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .qr-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .qr-item:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .qr-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .qr-item:hover .qr-image {
+            transform: scale(3);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .qr-label {
+            color: var(--primary-light);
+            font-size: 10px;
+            letter-spacing: 0.3px;
+            text-align: center;
+            max-width: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 36px;
+            }
+
+            .error-message {
+                font-size: 16px;
+            }
+
+            .section-content {
+                padding: 0 20px;
+            }
+
+            .contact-links {
+                gap: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-links a,
+            .contact-links .wechat {
+                font-size: 12px;
+            }
+
+            .qr-codes {
+                gap: 15px;
+            }
+
+            .qr-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .qr-label {
+                font-size: 9px;
+                max-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-title">404</h1>
+        <p class="error-message">页面未找到</p>
+        <a href="/" class="back-link">← 返回首页</a>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-content">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-info">
+                <div class="contact-links">
+                    <a href="https://github.com/chengyixu" target="_blank">GitHub</a>
+                    <a href="https://www.panor.tech/" target="_blank">Website</a>
+                    <a href="mailto:wilson_xu@panor.tech">Email P</a>
+                    <a href="mailto:xcy@minervacap.cn">Email W</a>
+                    <span class="wechat">微信: OneMoreBirthday</span>
+                    <a href="https://www.linkedin.com/in/chengyi-xu-cn/" target="_blank">LinkedIn</a>
+                </div>
+                <div class="qr-section">
+                    <div class="qr-title">QR Codes / 二维码</div>
+                    <div class="qr-codes">
+                        <div class="qr-item">
+                            <img src="/public/QR codes/个人二维码.png" alt="个人二维码" class="qr-image">
+                            <span class="qr-label">个人二维码</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/全景社区交流群.png" alt="社区交流群" class="qr-image">
+                            <span class="qr-label">社区交流群</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/公众号二维码.jpg" alt="公众号二维码" class="qr-image">
+                            <span class="qr-label">公众号二维码</span>
+                        </div>
+                        <div class="qr-item">
+                            <img src="/public/QR codes/微信群QR_非企业.png" alt="微信群" class="qr-image">
+                            <span class="qr-label">微信群</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="company-info">
+                    <p>帕诺互联网 | 全景智能</p>
+                    <p>© 2025 Panoramic Intelligence | Small & Beautiful</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/visitor-tracking.js"></script>
+</body>
+</html>
