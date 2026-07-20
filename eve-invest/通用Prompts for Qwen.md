@@ -1,10 +1,10 @@
 
 
 Qwen Key：
-"sk-316420c29c624dbeb7fbbcb63077a46f"
+"[REDACTED]"
 
 or
-"sk-1a28c3fcc7e044cbacd6faf47dc89755"
+"[REDACTED]"
 
 
 always use "qwen-plus" ,

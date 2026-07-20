@@ -174,7 +174,7 @@
     <div class="container">
         <div class="header">
             <h2>AI投资信息解析器</h2>
-            <p>使用通义千问AI自动解析混乱语言列中的投资信息</p>
+            <p>使用火山方舟 Ark 自动解析混乱语言列中的投资信息</p>
         </div>
 
         <div id="envNotice" class="env-notice" style="display: none;">
@@ -194,7 +194,7 @@
                 <div class="field-group">
                     <label for="aiProvider">AI服务商:</label>
                     <select id="aiProvider">
-                        <option value="qwen" selected>通义千问 (Qwen)</option>
+                        <option value="ark" selected>火山方舟 Ark（Panor 托管）</option>
                         <option value="openai">OpenAI</option>
                         <option value="claude">Claude</option>
                         <option value="custom">自定义</option>
@@ -558,7 +558,7 @@
             const apiKey = document.getElementById('apiKey').value;
             const customUrl = document.getElementById('customUrl').value;
 
-            if (!apiKey) {
+            if (!apiKey && provider !== 'ark') {
                 throw new Error('请输入API密钥');
             }
 
@@ -595,16 +595,16 @@
 
             let apiUrl, requestBody, headers;
 
-            if (provider === 'qwen') {
-                apiUrl = customUrl || 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+            if (provider === 'ark') {
+                apiUrl = '/api/platform/ai/chat';
                 headers = {
-                    'Authorization': `Bearer ${apiKey}`,
                     'Content-Type': 'application/json'
                 };
                 requestBody = {
-                    model: 'qwen-plus',
+                    service: 'ai-parser',
                     messages: [{ role: 'user', content: prompt }],
-                    temperature: 0.1
+                    temperature: 0.1,
+                    response_format: { type: 'json_object' }
                 };
             } else if (provider === 'openai') {
                 apiUrl = customUrl || 'https://api.openai.com/v1/chat/completions';

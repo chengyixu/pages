@@ -68,9 +68,8 @@ export function delay(ms: number): Promise<void> {
 const POLYGON_API_KEY = "pnkoTSnYpxNLqJajlEBPXTqKf2nxqO43";
 const POLYGON_BASE_URL = "https://api.polygon.io";
 
-// Qwen AI Configuration
-const QWEN_API_KEY = "sk-1a28c3fcc7e044cbacd6faf47dc89755";
-const QWEN_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+// Panor platform gateway keeps the Ark credential server-side.
+const PLATFORM_AI_URL = '/api/platform/ai/chat';
 
 // Polygon API Service
 export class PolygonService {
@@ -210,12 +209,10 @@ export class PolygonService {
   }
 }
 
-// Qwen AI Service
-export class QwenService {
-  private static apiKey = QWEN_API_KEY;
-  private static baseUrl = QWEN_BASE_URL;
+// Ark AI Service
+export class ArkService {
 
-  // Extract tags from strategy title using Qwen AI
+  // Extract tags from strategy title using Ark AI
   static async extractTags(title: string, type: 'stock_selection' | 'price_prediction' | 'portfolio_allocation') {
     const systemPrompt = `You are a financial AI assistant specialized in quantitative trading strategies. Your task is to analyze strategy titles and extract relevant tags.
 
@@ -234,14 +231,13 @@ Strategy Title: ${title}
 Extract 3-5 relevant tags:`;
 
     try {
-      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+      const response = await fetch(PLATFORM_AI_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
-          model: 'qwen-plus',
+          service: 'eve-invest',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
@@ -269,7 +265,7 @@ Extract 3-5 relevant tags:`;
       
       return ['quantitative', 'algorithmic']; // Fallback tags
     } catch (error) {
-      console.error('Error extracting tags with Qwen:', error);
+      console.error('Error extracting tags with Ark:', error);
       // Return default tags based on type
       switch (type) {
         case 'stock_selection':
@@ -298,14 +294,13 @@ Provide analysis in JSON format with these fields:
 - risk_level: "low" | "moderate" | "high"`;
 
     try {
-      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+      const response = await fetch(PLATFORM_AI_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
-          model: 'qwen-plus',
+          service: 'eve-invest',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
@@ -329,7 +324,7 @@ Provide analysis in JSON format with these fields:
         risk_level: "moderate"
       };
     } catch (error) {
-      console.error('Error analyzing strategy with Qwen:', error);
+      console.error('Error analyzing strategy with Ark:', error);
       return {
         overall_assessment: "Strategy analysis unavailable",
         strengths: [],
@@ -344,14 +339,13 @@ Provide analysis in JSON format with these fields:
     const systemPrompt = `You are a financial market analyst. Provide concise market insights based on the provided data. Focus on trends, patterns, and actionable information for quantitative traders.`;
 
     try {
-      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+      const response = await fetch(PLATFORM_AI_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
-          model: 'qwen-plus',
+          service: 'eve-invest',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: `Analyze this market data and provide insights: ${JSON.stringify(marketData)}` }

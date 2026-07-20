@@ -13,7 +13,7 @@ import {
   Loader,
   BarChart3
 } from 'lucide-react';
-import { QwenService, calculateRealStrategyPerformance, generateRadarData, calculateStrategyMetrics } from '../utils';
+import { ArkService, calculateRealStrategyPerformance, generateRadarData, calculateStrategyMetrics } from '../utils';
 import { useStrategy } from '../App';
 import type { 
   StockSelectionInput, 
@@ -166,7 +166,7 @@ const ModelUpload: React.FC = () => {
       }
       
       // 使用AI分析策略
-      const analysisResult = await QwenService.analyzeStrategy({
+      const analysisResult = await ArkService.analyzeStrategy({
         type,
         title: formData.title,
         data: strategyData
@@ -330,7 +330,7 @@ const ModelUpload: React.FC = () => {
       }
       
       // 使用AI分析策略
-      const analysisResult = await QwenService.analyzeStrategy({
+      const analysisResult = await ArkService.analyzeStrategy({
         type,
         title: formData.title,
         data: strategyData
